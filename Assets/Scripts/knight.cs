@@ -3,6 +3,7 @@ using UnityEngine;
 public class knight : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public AudioClip[] footsteps;
     void Start()
     {
         
@@ -14,8 +15,8 @@ public class knight : MonoBehaviour
         
     }
 
-    public void Footstep() 
-    { 
-        
+    public void Footstep()
+    {
+        AudioSource.PlayClipAtPoint(footsteps[Random.Range(0, 9)], transform.position);
     }
 }
