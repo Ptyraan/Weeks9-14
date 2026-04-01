@@ -44,7 +44,7 @@ public class knight : MonoBehaviour
             pos.x += 0.05f;
             scale.x = -3;
         }
-        if (Keyboard.current.anyKey.isPressed)
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.aKey.isPressed || Keyboard.current.sKey.isPressed || Keyboard.current.dKey.isPressed)
         {
             transform.localScale = scale;
             idle.transform.localScale = Vector3.one * 0;
@@ -74,7 +74,7 @@ public class knight : MonoBehaviour
 
     public void Footstep()
     {
-        if (Keyboard.current.anyKey.isPressed)
+        if (Keyboard.current.wKey.isPressed || Keyboard.current.aKey.isPressed || Keyboard.current.sKey.isPressed || Keyboard.current.dKey.isPressed)
         {
             AudioSource.PlayClipAtPoint(footsteps[Random.Range(0, 9)], transform.position);
             shook = 0.2f;
