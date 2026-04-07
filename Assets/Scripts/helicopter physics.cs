@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class helicopterphysics : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class helicopterphysics : MonoBehaviour
     public GameObject hill2;
     public GameObject HUDCursorRKT;
     public GameObject HUDCursorMSL;
+
+    public UnityEvent OnClick;
+    public int gameState;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -151,5 +155,13 @@ public class helicopterphysics : MonoBehaviour
     public void angleOfAttack(InputAction.CallbackContext context)
     {
         cursor = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()) - transform.position;
+    }
+
+    public void click(InputAction.CallbackContext context)
+    {
+        if (context.performed == true) 
+        {
+            OnClick.Invoke();
+        }
     }
 }
