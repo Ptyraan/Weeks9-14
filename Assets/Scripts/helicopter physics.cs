@@ -31,8 +31,6 @@ public class helicopterphysics : MonoBehaviour
         mousePos.x = cursor.x;
         mousePos.y = cursor.y;
         mousePos.z = 0;
-        // INPUT SYSTEM IS NOT WORKING
-        mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector3 vector = mousePos - transform.position;
         Vector3 direction = Vector3.zero;
         aoa = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
