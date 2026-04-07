@@ -31,11 +31,10 @@ public class helicopterphysics : MonoBehaviour
         mousePos.x = cursor.x;
         mousePos.y = cursor.y;
         mousePos.z = 0;
-        Vector3 vector = mousePos - transform.position;
         Vector3 direction = Vector3.zero;
-        aoa = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
+        aoa = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
         direction.z = aoa;
-        if (mousePos.x - transform.position.x >= 0)
+        if (mousePos.x >= 0)
         {
             transform.eulerAngles = direction;
             spriteRenderer.flipY = false;
@@ -64,7 +63,7 @@ public class helicopterphysics : MonoBehaviour
         }
 
 
-        if (mousePos.x - transform.position.x >= 0)
+        if (mousePos.x >= 0)
         {
             acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr;
             acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr - 0.75f;
@@ -138,7 +137,7 @@ public class helicopterphysics : MonoBehaviour
         hill1.transform.position = pos;
         pos.x += 39.92f;
         hill2.transform.position = pos;
-        HUDCursor.transform.position = mousePos;
+        HUDCursor.transform.position = mousePos + transform.position;
 
     }
 
@@ -149,6 +148,6 @@ public class helicopterphysics : MonoBehaviour
 
     public void angleOfAttack(InputAction.CallbackContext context)
     {
-        cursor = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+        cursor = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>()) - transform.position;
     }
 }
