@@ -67,12 +67,12 @@ public class helicopterphysics : MonoBehaviour
         if (mousePos.x >= 0)
         {
             acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr;
-            acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr - 0.75f;
+            acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr - 0.5f;
         }
         else
         {
             acceleration.x = -Mathf.Cos((aoa + 90) * Mathf.Deg2Rad) * pwr;
-            acceleration.y = -Mathf.Sin((aoa + 90) * Mathf.Deg2Rad) * pwr - 0.75f;
+            acceleration.y = -Mathf.Sin((aoa + 90) * Mathf.Deg2Rad) * pwr - 0.5f;
         }
 
         velocity.x += acceleration.x * Time.deltaTime;
