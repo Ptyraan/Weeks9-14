@@ -16,7 +16,8 @@ public class helicopterphysics : MonoBehaviour
     public GameObject hill0;
     public GameObject hill1;
     public GameObject hill2;
-    public GameObject HUDCursor;
+    public GameObject HUDCursorRKT;
+    public GameObject HUDCursorMSL;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -137,7 +138,8 @@ public class helicopterphysics : MonoBehaviour
         hill1.transform.position = pos;
         pos.x += 39.92f;
         hill2.transform.position = pos;
-        HUDCursor.transform.position = mousePos + transform.position;
+        HUDCursorRKT.transform.position = mousePos + transform.position;
+        HUDCursorMSL.transform.position = mousePos + transform.position;
 
     }
 
