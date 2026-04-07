@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class helicopterphysics : MonoBehaviour
 {
+    public Vector2 movement;
+    public Vector2 cursor;
     public Vector2 velocity;
     public Vector2 acceleration;
     public float pwr;
@@ -14,6 +16,7 @@ public class helicopterphysics : MonoBehaviour
     public GameObject hill0;
     public GameObject hill1;
     public GameObject hill2;
+    public GameObject HUDCursor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,8 +27,12 @@ public class helicopterphysics : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3 mousePos = Vector3.zero;
+        mousePos.x = cursor.x;
+        mousePos.y = cursor.y;
         mousePos.z = 0;
+        // INPUT SYSTEM IS NOT WORKING
+        mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector3 vector = mousePos - transform.position;
         Vector3 direction = Vector3.zero;
         aoa = Mathf.Atan2(vector.y, vector.x) * Mathf.Rad2Deg;
@@ -41,25 +48,33 @@ public class helicopterphysics : MonoBehaviour
             spriteRenderer.flipY = true;
         }
 
-        if (Keyboard.current.wKey.isPressed && !Keyboard.current.sKey.isPressed && pwr < 1)
+        if (movement.y > 0)
         {
             pwr += 0.5f * Time.deltaTime;
+            if (pwr > 1) 
+            {
+                pwr = 1;
+            }
         }
-        if (Keyboard.current.sKey.isPressed && !Keyboard.current.wKey.isPressed && pwr > 0)
+        if (movement.y < 0)
         {
             pwr -= 0.5f * Time.deltaTime;
+            if (pwr < 0)
+            {
+                pwr = 0;
+            }
         }
 
 
         if (mousePos.x - transform.position.x >= 0)
         {
-            acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr * 0.5f;
-            acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr * 0.5f - 0.3f;
+            acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr;
+            acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr - 0.75f;
         }
         else
         {
-            acceleration.x = -Mathf.Cos((aoa + 90) * Mathf.Deg2Rad) * pwr * 0.5f;
-            acceleration.y = -Mathf.Sin((aoa + 90) * Mathf.Deg2Rad) * pwr * 0.5f - 0.3f;
+            acceleration.x = -Mathf.Cos((aoa + 90) * Mathf.Deg2Rad) * pwr;
+            acceleration.y = -Mathf.Sin((aoa + 90) * Mathf.Deg2Rad) * pwr - 0.75f;
         }
 
         velocity.x += acceleration.x * Time.deltaTime;
@@ -125,7 +140,17 @@ public class helicopterphysics : MonoBehaviour
         hill1.transform.position = pos;
         pos.x += 39.92f;
         hill2.transform.position = pos;
+        HUDCursor.transform.position = mousePos;
 
+    }
 
+    public void enginePower(InputAction.CallbackContext context) 
+    {
+        movement = context.ReadValue<Vector2>();
+    }
+
+    public void angleOfAttack(InputAction.CallbackContext context)
+    {
+        cursor = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
     }
 }
