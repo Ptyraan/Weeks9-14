@@ -26,11 +26,13 @@ public class spawner : MonoBehaviour
     public void click() {
         if (physics.gameState == 0)
         {
+            // shoot rocket
             spawnedPaint = Instantiate(prefab, transform.position, transform.rotation);
             count += 1;
             paint.Add(spawnedPaint);
         }
         else {
+            // reset game if over
             physics.gameState = 0;
             Vector3 pos = Vector3.zero;
             pos.y = 2.66f;

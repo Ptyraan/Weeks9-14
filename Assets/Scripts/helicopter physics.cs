@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using TMPro;
 
 public class helicopterphysics : MonoBehaviour
 {
@@ -26,6 +27,15 @@ public class helicopterphysics : MonoBehaviour
     public UnityEvent OnClick;
     public int gameState;
 
+    public TMP_Text height;
+    public TMP_Text width;
+    public TMP_Text power;
+    public TMP_Text[] enemies;
+    public GameObject w;
+    public GameObject l;
+    public GameObject d;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,6 +45,7 @@ public class helicopterphysics : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // find angle of attack
         Vector3 mousePos = Vector3.zero;
         mousePos.x = cursor.x;
         mousePos.y = cursor.y;
@@ -56,7 +67,7 @@ public class helicopterphysics : MonoBehaviour
         if (movement.y > 0)
         {
             pwr += 0.5f * Time.deltaTime;
-            if (pwr > 1) 
+            if (pwr > 1)
             {
                 pwr = 1;
             }
@@ -70,7 +81,7 @@ public class helicopterphysics : MonoBehaviour
             }
         }
 
-
+        // find acceleration
         if (mousePos.x >= 0 && !hit)
         {
             acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr;
@@ -87,8 +98,11 @@ public class helicopterphysics : MonoBehaviour
             acceleration.y = -0.5f;
         }
 
+        // apply acceleration
         velocity.x += acceleration.x * Time.deltaTime;
         velocity.y += acceleration.y * Time.deltaTime;
+
+        // double acceleration if changing direction
         if (velocity.x * acceleration.x < 0)
         {
             velocity.x += acceleration.x * Time.deltaTime;
@@ -97,6 +111,7 @@ public class helicopterphysics : MonoBehaviour
         {
             velocity.y += acceleration.x * Time.deltaTime;
         }
+        // max speed
         if (velocity.x > 5)
         {
             velocity.x = 5;
@@ -115,18 +130,19 @@ public class helicopterphysics : MonoBehaviour
         }
 
 
-
+        // apply velocity
         Vector3 pos = transform.position;
         pos.x += velocity.x * Time.deltaTime;
         pos.y += velocity.y * Time.deltaTime;
 
+        // crash into water
         if (transform.position.y >= 0)
         {
             transform.position = pos;
         }
-        else 
+        else
         {
-            if (gameState == 0) 
+            if (gameState == 0)
             {
                 gameState = 2;
             }
@@ -142,24 +158,28 @@ public class helicopterphysics : MonoBehaviour
                 transform.position = pos;
             }
         }
-        if (!boats[0].gameObject.activeInHierarchy && 
-            !boats[1].gameObject.activeInHierarchy && 
-            !boats[2].gameObject.activeInHierarchy && 
-            !boats[3].gameObject.activeInHierarchy && 
+
+        // check for win
+        if (!boats[0].gameObject.activeInHierarchy &&
+            !boats[1].gameObject.activeInHierarchy &&
+            !boats[2].gameObject.activeInHierarchy &&
+            !boats[3].gameObject.activeInHierarchy &&
             !boats[4].gameObject.activeInHierarchy)
         {
             gameState = 1;
         }
 
+        // check for getting hit
         if (Vector2.Distance(missiles[0].transform.position, transform.position) < 0.3f ||
             Vector2.Distance(missiles[1].transform.position, transform.position) < 0.3f ||
             Vector2.Distance(missiles[2].transform.position, transform.position) < 0.3f ||
             Vector2.Distance(missiles[3].transform.position, transform.position) < 0.3f ||
             Vector2.Distance(missiles[4].transform.position, transform.position) < 0.3f)
-        { 
+        {
             hit = true;
         }
 
+        // ocean and hills move
         pos.z = -10;
         camera.transform.position = pos;
         pos.z = 0;
@@ -172,9 +192,63 @@ public class helicopterphysics : MonoBehaviour
         hill1.transform.position = pos;
         pos.x += 39.92f;
         hill2.transform.position = pos;
+
+        // rocket crosshair and unused missile crosshair
         HUDCursorRKT.transform.position = mousePos + transform.position;
         HUDCursorMSL.transform.position = mousePos + transform.position;
 
+        // HUD
+        height.text = $"ALT {Mathf.Floor(transform.position.y * 100)}";
+        if (transform.position.x < 0)
+        {
+            width.text = $"{Mathf.Floor(-transform.position.x * 100)} W";
+        }
+        else
+        {
+            width.text = $"{Mathf.Floor(transform.position.x * 100)} E";
+        }
+        power.text = $"{Mathf.Floor(pwr * 100)}% PWR";
+        for (int i = 0; i < 5; i++)
+        {
+            if (boats[i].gameObject.activeInHierarchy)
+            {
+                enemies[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                enemies[i].gameObject.SetActive(false);
+            }
+        }
+        pos.x = transform.position.x;
+        pos.y = transform.position.y - 2.28f;
+        w.transform.position = pos;
+        l.transform.position = pos;
+        pos.y = transform.position.y + 2.2f;
+        d.transform.position = pos;
+
+        if (gameState == 0)
+        {
+            w.SetActive(false);
+            l.SetActive(false);
+        }
+        else if (gameState == 1)
+        {
+            w.SetActive(true);
+            l.SetActive(false);
+        }
+        else
+        {
+            w.SetActive(false);
+            l.SetActive(true);
+        }
+        if (hit)
+        {
+            d.SetActive(true);
+        }
+        else 
+        { 
+            d.SetActive(false);
+        }
     }
 
     public void enginePower(InputAction.CallbackContext context) 

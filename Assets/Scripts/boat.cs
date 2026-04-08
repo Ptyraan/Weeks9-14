@@ -13,6 +13,7 @@ public class boat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // check for hit
         for (int i = 0; i < rockets.count; i++) 
         {
             if (Vector2.Distance(rockets.paint[i].transform.position, transform.position) < 0.5) {

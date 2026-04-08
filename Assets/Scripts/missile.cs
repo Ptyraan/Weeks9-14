@@ -16,6 +16,7 @@ public class missile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // turns only slightly if tracking turns too much
         if (on == 1)
         {
             tgtAngle = Mathf.Atan2(transform.position.y - tgt.transform.position.y, transform.position.x - tgt.transform.position.x);
