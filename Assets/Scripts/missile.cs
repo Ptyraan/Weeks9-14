@@ -6,7 +6,7 @@ public class missile : MonoBehaviour
     public float heading;
     public Vector3 velocity;
     public float tgtAngle;
-    public int active;
+    public int on;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,7 +16,7 @@ public class missile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active == 1)
+        if (on == 1)
         {
             tgtAngle = Mathf.Atan2(transform.position.y - tgt.transform.position.y, transform.position.x - tgt.transform.position.x);
             if ((tgtAngle - heading) * Mathf.Rad2Deg > Time.deltaTime * 10)
@@ -36,7 +36,7 @@ public class missile : MonoBehaviour
             velocity.y = -Mathf.Sin(heading) * Time.deltaTime;
             transform.position += velocity;
         }
-        else if (active == 2) 
+        else if (on == 2) 
         {
             Vector3 pos = transform.position;
             pos.y -= Time.deltaTime;
@@ -44,15 +44,15 @@ public class missile : MonoBehaviour
         } 
         else if (Vector2.Distance(transform.position, tgt.transform.position) < 9)
         {
-            active = 1;
+            on = 1;
         }
         Vector3 angle = Vector3.zero;
         angle.z = heading * Mathf.Rad2Deg + 180;
         transform.eulerAngles = angle;
 
-        if (active == 1 && (transform.position.y < 0 || Vector2.Distance(transform.position, tgt.transform.position) > 10)) 
+        if (on == 1 && (transform.position.y < 0 || Vector2.Distance(transform.position, tgt.transform.position) > 10)) 
         {
-            active = 2;
+            on = 2;
         }
     }
 }

@@ -19,6 +19,9 @@ public class helicopterphysics : MonoBehaviour
     public GameObject hill2;
     public GameObject HUDCursorRKT;
     public GameObject HUDCursorMSL;
+    public missile[] missiles;
+    public boat[] boats;
+    public bool hit;
 
     public UnityEvent OnClick;
     public int gameState;
@@ -68,15 +71,20 @@ public class helicopterphysics : MonoBehaviour
         }
 
 
-        if (mousePos.x >= 0)
+        if (mousePos.x >= 0 && !hit)
         {
             acceleration.x = -Mathf.Cos((aoa - 90) * Mathf.Deg2Rad) * pwr;
             acceleration.y = -Mathf.Sin((aoa - 90) * Mathf.Deg2Rad) * pwr - 0.5f;
         }
-        else
+        else if (!hit)
         {
             acceleration.x = -Mathf.Cos((aoa + 90) * Mathf.Deg2Rad) * pwr;
             acceleration.y = -Mathf.Sin((aoa + 90) * Mathf.Deg2Rad) * pwr - 0.5f;
+        }
+        else
+        {
+            acceleration.x = 0;
+            acceleration.y = -0.5f;
         }
 
         velocity.x += acceleration.x * Time.deltaTime;
@@ -118,6 +126,10 @@ public class helicopterphysics : MonoBehaviour
         }
         else 
         {
+            if (gameState == 0) 
+            {
+                gameState = 2;
+            }
             pos = transform.position;
             pos.y -= 0.4f * Time.deltaTime;
             if (transform.position.y > -5.06f)
@@ -129,6 +141,14 @@ public class helicopterphysics : MonoBehaviour
                 pos.y = -5.06f;
                 transform.position = pos;
             }
+        }
+        if (!boats[0].gameObject.activeInHierarchy && 
+            !boats[1].gameObject.activeInHierarchy && 
+            !boats[2].gameObject.activeInHierarchy && 
+            !boats[3].gameObject.activeInHierarchy && 
+            !boats[4].gameObject.activeInHierarchy)
+        {
+            gameState = 1;
         }
         pos.z = -10;
         camera.transform.position = pos;
