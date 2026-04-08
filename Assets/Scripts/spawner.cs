@@ -31,7 +31,7 @@ public class spawner : MonoBehaviour
             paint.Add(spawnedPaint);
         }
         else {
-            /*physics.gameState = 0;
+            physics.gameState = 0;
             Vector3 pos = Vector3.zero;
             pos.y = 2.66f;
             transform.position = pos;
@@ -42,24 +42,38 @@ public class spawner : MonoBehaviour
             physics.boats[4].gameObject.SetActive(true);
             physics.boats[0].m.on = 0;
             physics.boats[0].m.gameObject.SetActive(true);
-            pos.x = 1.08f;
+            physics.boats[0].m.heading = -1.57f;
+            physics.boats[0].m.velocity = Vector3.zero;
+            pos.x = 7.160428f;
             pos.y = -0.08811905f;
             physics.boats[0].m.transform.position = pos;
             physics.boats[1].m.on = 0;
             physics.boats[1].m.gameObject.SetActive(true);
-            physics.boats[0].m.transform.position = pos;
+            physics.boats[1].m.heading = -1.57f;
+            physics.boats[1].m.velocity = Vector3.zero;
+            pos.x = 19.75543f;
+            physics.boats[1].m.transform.position = pos;
             physics.boats[2].m.on = 0;
             physics.boats[2].m.gameObject.SetActive(true);
-            physics.boats[0].m.transform.position = pos;
+            physics.boats[2].m.heading = -1.57f;
+            physics.boats[2].m.velocity = Vector3.zero;
+            pos.x = 39.15543f;
+            physics.boats[2].m.transform.position = pos;
             physics.boats[3].m.on = 0;
             physics.boats[3].m.gameObject.SetActive(true);
-            pos.x = -1.08f;
-            physics.boats[0].m.transform.position = pos;
+            physics.boats[3].m.heading = -1.57f;
+            physics.boats[3].m.velocity = Vector3.zero;
+            pos.x = -18.15543f;
+            physics.boats[3].m.transform.position = pos;
             physics.boats[4].m.on = 0;
             physics.boats[4].m.gameObject.SetActive(true);
-            physics.boats[0].m.transform.position = pos;
-            */
+            physics.boats[4].m.heading = -1.57f;
+            physics.boats[4].m.velocity = Vector3.zero;
+            pos.x = -33.04239f;
+            physics.boats[4].m.transform.position = pos;
 
+            physics.velocity = Vector3.zero;
+            physics.hit = false;
         }
     }
 }

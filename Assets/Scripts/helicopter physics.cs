@@ -150,6 +150,16 @@ public class helicopterphysics : MonoBehaviour
         {
             gameState = 1;
         }
+
+        if (Vector2.Distance(missiles[0].transform.position, transform.position) < 0.3f ||
+            Vector2.Distance(missiles[1].transform.position, transform.position) < 0.3f ||
+            Vector2.Distance(missiles[2].transform.position, transform.position) < 0.3f ||
+            Vector2.Distance(missiles[3].transform.position, transform.position) < 0.3f ||
+            Vector2.Distance(missiles[4].transform.position, transform.position) < 0.3f)
+        { 
+            hit = true;
+        }
+
         pos.z = -10;
         camera.transform.position = pos;
         pos.z = 0;
