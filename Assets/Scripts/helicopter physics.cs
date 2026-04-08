@@ -94,6 +94,7 @@ public class helicopterphysics : MonoBehaviour
         }
         else
         {
+            pwr = 0;
             acceleration.x = 0;
             acceleration.y = -0.5f;
         }

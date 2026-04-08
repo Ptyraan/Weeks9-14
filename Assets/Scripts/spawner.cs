@@ -47,7 +47,7 @@ public class spawner : MonoBehaviour
             physics.boats[0].m.heading = -1.57f;
             physics.boats[0].m.velocity = Vector3.zero;
             pos.x = 7.160428f;
-            pos.y = -0.08811905f;
+            pos.y = 0.429381f;
             physics.boats[0].m.transform.position = pos;
             physics.boats[1].m.on = 0;
             physics.boats[1].m.gameObject.SetActive(true);
@@ -73,7 +73,7 @@ public class spawner : MonoBehaviour
             physics.boats[4].m.velocity = Vector3.zero;
             pos.x = -33.04239f;
             physics.boats[4].m.transform.position = pos;
-
+            physics.pwr = 0.5f;
             physics.velocity = Vector3.zero;
             physics.hit = false;
         }
